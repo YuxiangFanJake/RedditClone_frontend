@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -23,48 +23,47 @@ const SignUpForm = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-      <Card style={{ width: '20rem' }} className="p-4">
-        <Card.Body>
-          <Card.Title className="text-center mb-4">Sign Up</Card.Title>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="w-100">
-              Sign Up
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+    <Modal.Body>
+      <Modal.Header closeButton onHide={props.onHide}>
+        <Modal.Title>Sign Up</Modal.Title>
+      </Modal.Header>
+      <Form onSubmit={handleSubmit}>
+        {/* Form fields */}
+        <Form.Group className="mb-3">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            required
+            onChange={handleChange}
+            value={formData.email}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            required
+            onChange={handleChange}
+            value={formData.password}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="confirmPassword"
+            required
+            onChange={handleChange}
+            value={formData.confirmPassword}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Sign Up
+        </Button>
+      </Form>
+    </Modal.Body>
   );
 };
 
