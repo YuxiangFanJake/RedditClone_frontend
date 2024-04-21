@@ -1,0 +1,14 @@
+.login-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .login-modal-header .modal-title {
+    font-weight: bold;
+  }
+  
+  /* Style for your buttons, form controls, and other elements */
+  /* ... */
+  
