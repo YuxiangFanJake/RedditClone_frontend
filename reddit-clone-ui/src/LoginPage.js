@@ -4,9 +4,10 @@ import './LoginPage.css';
 
 const LoginPage = ({ onHide }) => {
   const [loginData, setLoginData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
+  const [error, setError] = useState(""); // State to handle any login errors
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,12 +16,30 @@ const LoginPage = ({ onHide }) => {
       [name]: value,
     }));
   };
-
-  const handleSubmit = (e) => {
+  const apiBaseUrl = 'http://localhost:3000/api/v1';
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login form data:', loginData);
-    onHide(); // Close the modal
+    // Send a POST request to your backend
+    try {
+      const response = await fetch(`${apiBaseUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Login successful:', data);
+        onHide(); // Close the modal on successful login
+      } else {
+        throw new Error(data.message || "Unable to login"); // Handle errors like invalid credentials
+      }
+    } catch (error) {
+      setError(error.message);
+      console.error('Login failed:', error);
+    }
   };
 
   return (
@@ -29,15 +48,16 @@ const LoginPage = ({ onHide }) => {
         <Modal.Title>Log In</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
+        {error && <div className="alert alert-danger">{error}</div>}
         {/* Form fields */}
         <Form.Group className="mb-3">
-          <Form.Label>Email or username</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="text"
-            name="username"
+            name="email"
             required
             onChange={handleChange}
-            value={loginData.username}
+            value={loginData.email}
           />
         </Form.Group>
         <Form.Group className="mb-3">
