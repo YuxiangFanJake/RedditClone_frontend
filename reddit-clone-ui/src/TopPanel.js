@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import SignUpForm from './SignUpForm';
 
@@ -8,16 +8,18 @@ const TopPanel = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false); // State to control dropdown visibility
-    const [username, setUsername] = useState(''); // Username to display
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [username, setUsername] = useState('');
     let navigate = useNavigate(); 
 
     const handleShowLogin = () => setShowLogin(true);
-    const handleCloseLogin = () => {
-        setShowLogin(false);
+    const handleCloseLogin = () => setShowLogin(false);
+    
+    const handleLoginSuccess = (username) => {
         setIsLoggedIn(true);
-        setUsername('JohnDoe'); // Set a username upon login for demonstration
+        setUsername(username);  // Set the username from the login response
         setShowDropdown(false);
+        handleCloseLogin();
     };
 
     const handleShowSignUp = () => setShowSignUp(true);
@@ -28,23 +30,16 @@ const TopPanel = () => {
 
     const handleSignOut = () => {
         setIsLoggedIn(false);
-        setUsername(''); // Clear username
+        setUsername('');
     };
 
-    const handleCompose = () => {
-        navigate('/compose'); // Navigate to /compose route
-    };
-
-    const handleHomeButton = () => {
-        navigate('/'); // Navigate to home
-    };
-
+    const handleCompose = () => navigate('/compose');
+    const handleHomeButton = () => navigate('/');
     const toggleDropdown = () => setShowDropdown(!showDropdown);
-
     return (
         <header className="bg-white shadow p-4">
             <Modal show={showLogin} onHide={handleCloseLogin}>
-                <LoginPage onHide={handleCloseLogin} />
+                <LoginPage onHide={handleCloseLogin} onLoginSuccess={handleLoginSuccess} />
             </Modal>
             <Modal show={showSignUp} onHide={handleCloseSignUp}>
                 <SignUpForm onHide={handleCloseSignUp} />
