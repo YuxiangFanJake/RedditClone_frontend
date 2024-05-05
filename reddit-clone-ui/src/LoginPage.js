@@ -39,11 +39,13 @@ const LoginPage = ({ onHide, onLoginSuccess }) => {
       } else {
         // Use the server-provided error message or a default message if none provided
         setError(data.message || "Login failed. Please try again."); 
+        setTimeout(() => setError(""), 3000);  // Clear success message after 5 seconds
       }
     } catch (error) {
       // Handle network errors or other unexpected issues
       setError("Network error or server is unreachable.");
       console.error('Login failed:', error);
+      setTimeout(() => setError(""), 3000);  // Clear success message after 5 seconds
     }
   };
 
