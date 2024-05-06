@@ -1,9 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faShare } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
-const Post = ({ subreddit, title, imageSrc, upvotes, comments }) => {
+
+const Post = ({ id, subreddit, title, imageSrc, upvotes, content, comments, author }) => {
 const isValidImageSrc = imageSrc;
+
+let navigate = useNavigate();
+
+const handleClickSubject = () => {
+    navigate(`/post/${id}`);
+};
+
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
       <div className="md:flex">
@@ -13,8 +22,10 @@ const isValidImageSrc = imageSrc;
         </div>
         )}
         <div className="p-8">
-          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{subreddit}</div>
-          <a href="#" className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">{title}</a>
+          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">r/{subreddit}</div>
+          <button className="block mt-1 text-lg leading-tight font-medium text-black hover:underline" onClick={handleClickSubject}>{title}</button>
+          <div className='"uppercase tracking-wide text-sm text-indigo-500 font-semibold"'>u/{author}</div>
+          <div className='content'>{content}</div>
           <p className="mt-2 text-gray-500">{upvotes} points • {comments} comments</p>
           <div className="mt-4 flex items-center">
             <button className="text-blue-500 hover:text-blue-600">

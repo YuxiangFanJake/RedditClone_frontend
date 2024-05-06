@@ -3,9 +3,6 @@ import { useAuth } from './AuthContext';
 import { flushSync } from 'react-dom';
 
 const CreatePostForm = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [community, setCommunity] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // State to handle any signup errors
@@ -18,9 +15,13 @@ const CreatePostForm = () => {
     community:'',
   });
 
+//   useEffect(() => {
+//     console.log("Updated composeData:", composeData);
+//   }, [composeData]); // This effect runs whenever composeData changes.
+
   useEffect(() => {
-    console.log("Updated composeData:", composeData);
-  }, [composeData]); // This effect runs whenever composeData changes.
+    updateAuthorName(user)
+  }, []); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +50,6 @@ const CreatePostForm = () => {
   const apiBaseUrl = 'http://localhost:3000/api/v1';
   const handleSubmit = async (e) => {
     e.preventDefault();
-    updateAuthorName(user)
     try {
       const response = await fetch(`${apiBaseUrl}/new-post`, {
         method: 'POST',
@@ -102,6 +102,8 @@ const CreatePostForm = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Create post</h1>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="community" className="block mb-2">Community</label>

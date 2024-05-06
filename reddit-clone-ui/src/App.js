@@ -1,13 +1,14 @@
 import React from 'react';
 import './tailwind.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './AuthContext';
 import TopPanel from './TopPanel';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import MainPanel from './MainPanel';
 import ComposePanel from './ComposePanel'; 
 import NewCommunityForm from './NewCommunityForm'; 
+import CommunityTemplate from './CommunityTemplate'
+import PostTemplate from './PostTemplate'
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
                 <Route path="/" element={<MainPanel />} />
                 <Route path="/compose" element={<ComposePanel />} />
                 <Route path="/new-community" element={<NewCommunityForm/>} />
+                <Route path="/community/:page" element={<CommunityTemplate />} />
+                <Route path="/post/:postId" element={<PostTemplate />} />
             </Routes>
             <RightPanel />
             </div>
