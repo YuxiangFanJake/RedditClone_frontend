@@ -51,7 +51,7 @@ const PostTemplate = () => {
       const data = await response.json();
       if (response.ok) {
         console.log('Successful created a comment:', data);
-        //setTimeout(() => setSuccess(""), 5000);  // Clear success message after 5 seconds
+        fetchData();
       } else {
         setError(data.message || "Fail to create a comment."); // Handle backend errors
         console.log(data.message)
@@ -64,34 +64,31 @@ const PostTemplate = () => {
     }
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/fetch-post?postId=${encodeURIComponent(postId)}`);
+      const data = await response.json();
+      if (response.ok) {
+        setData(data); // Assuming the API returns an array of data
+        console.log('Successfully fetched the content:', data);
+      } else {
+        setError(data.message || "Fail to load posts.");
+        console.log(data.message);
+        setTimeout(() => setError(""), 5000);
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Fail to load posts:', err);
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   
   useEffect(() => {
     updateAuthorName(user)
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`http://localhost:3000/api/v1/fetch-post?postId=${encodeURIComponent(postId)}`);
-          const data = await response.json();
-          if (response.ok) {
-            //setSuccess("Successfully created a post:."); // Set success message
-            //setTimeout(() => setSuccess(""), 5000);  // Clear success message after 5 seconds
-            console.log({postId})
-            setData(data); // Assuming the API returns an array of data
-            console.log('Successfully fetched the content:', data);
-          } else {
-            setError(data.message || "Fail to load posts."); // Handle backend errors
-            console.log(data.message)
-            setTimeout(() => setError(""), 5000);  // Clear success message after 5 seconds
-          }
-      } catch (err) {
-        setError(error.message);
-        console.error('Fail to load posts:', error);
-        setTimeout(() => setError(""), 5000);  // Clear success message after 5 seconds
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, [postId]); // Re-fetch when the page changes
 

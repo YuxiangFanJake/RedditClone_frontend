@@ -14,6 +14,11 @@ const TopPanel = () => {
     const { user, logout } = useAuth();
     let navigate = useNavigate();
 
+    const handleLogout = () => {
+        logout();
+        navigate(`/`);
+    }
+
     const handleSearchChange = async (event) => {
         const value = event.target.value;
         setSearch(value);
@@ -86,7 +91,7 @@ const TopPanel = () => {
                                 </button>
                                 {showDropdown && (
                                     <div className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl">
-                                        <button className="text-sm text-left w-full px-4 py-2 hover:bg-gray-100" onClick={logout}>Sign Out</button>
+                                        <button className="text-sm text-left w-full px-4 py-2 hover:bg-gray-100" onClick={handleLogout}>Sign Out</button>
                                     </div>
                                 )}
                             </div>
