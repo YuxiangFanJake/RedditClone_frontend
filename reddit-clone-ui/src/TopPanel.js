@@ -57,6 +57,7 @@ const TopPanel = () => {
         setUsername('');
     };
     const handleCompose = () => navigate('/compose');
+    const handleNewCommunity = () => navigate('/new-community');
     const handleHomeButton = () => navigate('/');
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     return (
@@ -96,7 +97,8 @@ const TopPanel = () => {
                                     </div>
                                 )}
                             </div>
-                            <button className="bg-blue-500 text-white text-sm px-4 py-2 rounded" onClick={handleCompose}>Compose</button>
+                            <button className="bg-blue-500 text-white text-sm px-4 py-2 rounded" onClick={handleCompose}>New Post</button>
+                            <button className="bg-blue-500 text-white text-sm px-4 py-2 rounded" onClick={handleNewCommunity}>New Community</button>
                         </>
                     ) : (
                         <>

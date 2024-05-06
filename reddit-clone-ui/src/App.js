@@ -6,6 +6,7 @@ import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import MainPanel from './MainPanel';
 import ComposePanel from './ComposePanel'; 
+import NewCommunityForm from './NewCommunityForm'; 
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Routes> {/* Replacing Switch with Routes */}
             <Route path="/" element={<MainPanel />} />
             <Route path="/compose" element={<ComposePanel />} />
+            <Route path="/new-community" element={<NewCommunityForm/>} />
           </Routes>
           <RightPanel />
         </div>
