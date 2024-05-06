@@ -3,15 +3,15 @@ import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import SignUpForm from './SignUpForm';
+import { useAuth } from './AuthContext';
 
 const TopPanel = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [username, setUsername] = useState('');
     const [search, setSearch] = useState('');
     const [communities, setCommunities] = useState([]);
+    const { user, logout } = useAuth();
     let navigate = useNavigate();
 
     const handleSearchChange = async (event) => {
@@ -40,11 +40,8 @@ const TopPanel = () => {
         setSearch('');
     };
 
-    const handleShowLogin = () => setShowLogin(true);
     const handleCloseLogin = () => setShowLogin(false);
     const handleLoginSuccess = (username) => {
-        setIsLoggedIn(true);
-        setUsername(username);
         setShowDropdown(false);
     };
     const handleShowSignUp = () => setShowSignUp(true);
@@ -52,10 +49,6 @@ const TopPanel = () => {
         setShowSignUp(false);
         setShowDropdown(false);
     }
-    const handleSignOut = () => {
-        setIsLoggedIn(false);
-        setUsername('');
-    };
     const handleCompose = () => navigate('/compose');
     const handleNewCommunity = () => navigate('/new-community');
     const handleHomeButton = () => navigate('/');
@@ -85,15 +78,15 @@ const TopPanel = () => {
                     )}
                 </div>
                 <div className="flex items-center space-x-4">
-                    {isLoggedIn ? (
+                    {user ? (
                         <>
                             <div className="relative">
                                 <button className="text-sm" onClick={toggleDropdown}>
-                                    {username}
+                                    Welcome: {user}
                                 </button>
                                 {showDropdown && (
                                     <div className="absolute right-0 mt-2 py-2 w-48 bg-white border rounded shadow-xl">
-                                        <button className="text-sm text-left w-full px-4 py-2 hover:bg-gray-100" onClick={handleSignOut}>Sign Out</button>
+                                        <button className="text-sm text-left w-full px-4 py-2 hover:bg-gray-100" onClick={logout}>Sign Out</button>
                                     </div>
                                 )}
                             </div>

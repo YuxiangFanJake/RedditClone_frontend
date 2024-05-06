@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import './LoginPage.css'; 
+import { useAuth } from './AuthContext';
 
 // LoginPage.js
 const LoginPage = ({ onHide, onLoginSuccess }) => {
+const { user, login } = useAuth();
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -34,6 +36,7 @@ const LoginPage = ({ onHide, onLoginSuccess }) => {
       const data = await response.json();
       if (response.ok) {
         console.log('Login successful:', data);
+        login(data.userName)
         onLoginSuccess(data.userName);  // Pass the username from the response to the parent component
         onHide(); 
       } else {
