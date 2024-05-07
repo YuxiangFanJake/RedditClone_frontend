@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import './LoginPage.css'; 
+import { useAuth } from './AuthContext';
 
-const LoginPage = ({ onHide }) => {
+// LoginPage.js
+const LoginPage = ({ onHide, onLoginSuccess }) => {
+const { user, login } = useAuth();
   const [loginData, setLoginData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
+  const [error, setError] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,11 +20,36 @@ const LoginPage = ({ onHide }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const apiBaseUrl = 'http://localhost:3000/api/v1';
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login form data:', loginData);
-    onHide(); // Close the modal
+    setError("");  // Clear previous errors before a new request
+    try {
+      const response = await fetch(`${apiBaseUrl}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Login successful:', data);
+        login(data.userName)
+        onLoginSuccess(data.userName);  // Pass the username from the response to the parent component
+        onHide(); 
+      } else {
+        // Use the server-provided error message or a default message if none provided
+        setError(data.message || "Login failed. Please try again."); 
+        setTimeout(() => setError(""), 3000);  // Clear success message after 5 seconds
+      }
+    } catch (error) {
+      // Handle network errors or other unexpected issues
+      setError("Network error or server is unreachable.");
+      console.error('Login failed:', error);
+      setTimeout(() => setError(""), 3000);  // Clear success message after 5 seconds
+    }
   };
 
   return (
@@ -29,15 +58,15 @@ const LoginPage = ({ onHide }) => {
         <Modal.Title>Log In</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
-        {/* Form fields */}
+        {error && <div className="alert alert-danger">{error}</div>}
         <Form.Group className="mb-3">
-          <Form.Label>Email or username</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="text"
-            name="username"
+            name="email"
             required
             onChange={handleChange}
-            value={loginData.username}
+            value={loginData.email}
           />
         </Form.Group>
         <Form.Group className="mb-3">
