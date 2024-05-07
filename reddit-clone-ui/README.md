@@ -1,12 +1,17 @@
-npm install --save @fortawesome/fontawesome-svg-core
-npm install --save @fortawesome/free-solid-svg-icons
-npm install --save @fortawesome/react-fontawesome
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Dependencies
+npm install --save @fortawesome/fontawesome-svg-core
+
+npm install --save @fortawesome/free-solid-svg-icons
+
+npm install --save @fortawesome/react-fontawesome
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init
 
 ## Available Scripts
 
